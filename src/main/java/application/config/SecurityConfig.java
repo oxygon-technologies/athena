@@ -1,4 +1,4 @@
-package application.security;
+package application.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -85,14 +85,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	        };
 	    }
 	    
-	    @Bean
-	    public Docket api() { 
-	        return new Docket(DocumentationType.SWAGGER_2)  
-	          .select()                                  
-	          .apis(RequestHandlerSelectors.any())              
-	          .paths(PathSelectors.any())                          
-	          .build();                                           
-	    }
 	    
 
 }

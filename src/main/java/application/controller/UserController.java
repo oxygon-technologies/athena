@@ -1,5 +1,7 @@
 package application.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +22,8 @@ private UserService userService;
 
 	@PreAuthorize("hasAnyRole('ADMIN')")
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public ResponseEntity<Object> getProduct() {
-		return new ResponseEntity<>(userService.getUsers(),HttpStatus.OK);
+	public List<User> getProduct() {
+		return userService.getUsers();
 	}
 	
 	@PreAuthorize("hasAnyRole('ADMIN')")
@@ -36,13 +38,20 @@ private UserService userService;
 	      return userService.save(user);
 	   }
 	 
+	 @PreAuthorize("hasAnyRole('ADMIN')")
 	 @RequestMapping(value = "/users", method = RequestMethod.PUT)
 	   public ResponseEntity<Object> updateUser(@RequestBody User user) {
 		  return userService.modify(user);
 	   }
 	 
+	 @PreAuthorize("hasAnyRole('ADMIN')")
 	 @RequestMapping(value = "/users", method = RequestMethod.DELETE)
 	   public ResponseEntity<Object> deleteUser(@RequestBody User user) {
 		  return userService.delete(user);
+	   }
+	 
+	 @RequestMapping(value = "/users/login", method = RequestMethod.POST)
+	   public ResponseEntity<Object> loginUser(@RequestBody User user) {
+	      return userService.login(user.getEmail(), user.getPassword());
 	   }
 }

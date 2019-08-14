@@ -41,4 +41,17 @@ private UserRepository repository;
 		return new ResponseEntity<>("User Deleted successfully", HttpStatus.CREATED);
 	}
 	
+	public ResponseEntity<Object> login(String username, String password) {
+		Optional<User> user = repository.findByName(username);
+		if(user.isPresent()) {
+			if(user.get().getPassword().equals(password)) {
+				return new ResponseEntity<>("Login Successfull", HttpStatus.OK);
+			}else {
+				return new ResponseEntity<>("Incorrect Password", HttpStatus.UNAUTHORIZED);
+			}
+		}else {
+			return new ResponseEntity<>("Incorrect Username", HttpStatus.UNAUTHORIZED);
+		}
+	}
+	
 }

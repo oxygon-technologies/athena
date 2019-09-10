@@ -1,22 +1,24 @@
 package application.dao;
 
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.Optional;
  
 @NoRepositoryBean
-interface BaseRepository<T, ID extends Serializable> extends Repository<T, ID> {
+interface BaseRepository<T, ID extends Serializable> extends PagingAndSortingRepository<T, ID> {
  
     void delete(T deleted);
  
-    List<T> findAll();
+    Page<T> findAll(Pageable pageable);
      
     Optional<T> findById(ID id);
     
     Optional<T> findByName(String username);
  
-    T save(T persisted);
+    //T save(T persisted);
 }

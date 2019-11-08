@@ -78,7 +78,10 @@ public class User {
 	}
 
 	public String getPassword() {
-		return password;
+		if(password != null)
+		 return password;
+		else
+		 return "";
 	}
 
 	public void setPassword(String password) {

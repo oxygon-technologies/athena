@@ -55,6 +55,6 @@ private UserService userService;
 	 
 	 @RequestMapping(value = "/users/login", method = RequestMethod.POST)
 	   public ResponseEntity<Object> loginUser(@RequestBody User user) {
-	      return userService.login(user.getEmail(), user.getPassword());
+	      return userService.login(user.getName(), user.getPassword());
 	   }
 }

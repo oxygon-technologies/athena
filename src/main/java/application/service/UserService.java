@@ -17,6 +17,7 @@ import application.dao.UserRepository;
 import application.model.AppResponse;
 import application.model.ResponseCodes;
 import application.model.User;
+import application.util.PasswordHash;
 
 @Service
 public class UserService {
@@ -36,12 +37,16 @@ private UserRepository repository;
 	public ResponseEntity<Object> save(List<User> userList) {
 		AppResponse response = new AppResponse();
 		for(User user: userList){
+			if(user.getPassword().equals("") || user.getPassword() == null) {
+				user.setPassword(PasswordHash.generateHash(user.getName()));
+			}
 			repository.save(user);
 		}
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
 	}
 	
 	public ResponseEntity<Object> modify(User user) {
+		
 		repository.save(user);
 		AppResponse response = new AppResponse();
 		return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -57,8 +62,9 @@ private UserRepository repository;
 		Optional<User> user = repository.findByName(username);
 		AppResponse response = new AppResponse();
 		if(user.isPresent()) {
-			if(user.get().getPassword().equals(password)) {
+			if(user.get().getPassword().equals(PasswordHash.generateHash(password))) {
 				response.setResponseCode(ResponseCodes.SUCCESS);
+				response.setResponseValue(user.get().getPassword());
 				return new ResponseEntity<>(response, HttpStatus.OK);
 			}else {
 				response.setResponseCode(ResponseCodes.ERROR_INVALID_PASSWORD);
